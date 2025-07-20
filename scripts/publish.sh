@@ -32,23 +32,23 @@ fi
 
 # Install dependencies
 echo "📦 Installing dependencies..."
-pnpm install
+npm install
 
 # Run tests
 echo "🧪 Running tests..."
-pnpm test
+npm test
 
 # Run linting
 echo "🔍 Running linter..."
-pnpm lint
+npm lint
 
 # Type check
 echo "📝 Type checking..."
-pnpm type-check
+npm type-check
 
 # Build the project
 echo "🔨 Building project..."
-pnpm build
+npm build
 
 # Check if dist directory exists
 if [ ! -d "dist" ]; then
