@@ -1,0 +1,17 @@
+{
+  "framework": "custom",
+  "projectDir": "./",
+  "sourceDir": "src",
+  "localeDir": "src/localized/strings",
+  "extensions": ["js", "jsx", "ts", "tsx"],
+  "ignoreDirs": ["node_modules", ".git", "dist", "build"],
+  "ignoreKeyPatterns": ["components", "utils", "common", "hooks"],
+  "defaultLocale": "zh_hans.js",
+  "extractPattern": "\\$LS\\s*\\(\\s*['\"`]([^'\"`]+)['\"`]\\s*\\)",
+  "output": {
+    "format": "excel",
+    "filePath": "./i18n-scan-report.xlsx",
+    "includeStats": true,
+    "includeContext": true
+  }
+}

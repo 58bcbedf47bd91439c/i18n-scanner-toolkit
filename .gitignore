@@ -1,0 +1,128 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# Build outputs (keep dist/ for npm publishing)
+# dist/  # Comment out - we need dist/ for npm
+build/
+dist/
+lib/
+*.tsbuildinfo
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Logs
+logs/
+*.log
+lerna-debug.log*
+
+# Test coverage
+coverage/
+*.lcov
+.nyc_output/
+.c8_output/
+
+# Vitest
+.vitest/
+
+# Package managers
+.npm/
+.yarn/
+.pnpm-store/
+.eslintcache
+.stylelintcache
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Bundler cache
+.cache/
+.parcel-cache/
+.rollup.cache/
+.vite/
+
+# Temporary folders
+tmp/
+temp/
+.tmp/
+
+# Test outputs
+test-results/
+test-output/
+*.temp.js
+*.temp.ts
+
+# Generated files
+*.generated.*
+auto-generated/
+
+# Local development
+.local/
+.dev/
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Lock files (keep for reproducible builds)
+# package-lock.json  # Keep for npm
+# yarn.lock         # Keep for yarn
+# pnpm-lock.yaml     # Keep for pnpm
+
+# Demo project generated files
+demo-project/*/node_modules/
+demo-project/*/dist/
+demo-project/*/build/
+demo-project/*/*.csv
+demo-project/*/*.xlsx
+demo-project/*/lang_bulid_*.csv
+demo-project/*/missing-translations*.json
+demo-project/*/test-*.csv
+
+# Generated test files
+*.test.csv
+*.test.xlsx
+lang_bulid_*.csv
+missing-translations*.json

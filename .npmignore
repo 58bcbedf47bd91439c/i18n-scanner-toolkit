@@ -1,0 +1,141 @@
+# Source files (TypeScript sources are not needed in published package)
+src/
+*.ts
+*.tsx
+!dist/**/*.d.ts
+!lib/**/*.d.ts
+
+# Development configuration files
+.eslintrc*
+.prettierrc*
+.editorconfig
+jest.config.*
+vitest.config.*
+rollup.config.*
+webpack.config.*
+vite.config.*
+tsconfig*.json
+.swcrc
+
+# Test files
+**/*.test.*
+**/*.spec.*
+__tests__/
+tests/
+test/
+coverage/
+.nyc_output/
+.c8_output/
+.vitest/
+
+# Development dependencies
+node_modules/
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+*.temp.*
+*.bak
+*.backup
+
+# Build artifacts that shouldn't be published
+build/
+.cache/
+.parcel-cache/
+.rollup.cache/
+.vite/
+
+# Environment files
+.env*
+!.env.example
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD files
+.github/
+.travis.yml
+.circleci/
+.gitlab-ci.yml
+azure-pipelines.yml
+.drone.yml
+
+# Documentation source (keep README.md but exclude docs source)
+docs/
+*.md
+!README.md
+!CHANGELOG.md
+!LICENSE.md
+
+# Development scripts and demos
+demo.js
+test.js
+simple-index.js
+scripts/dev.*
+scripts/test.*
+
+# Package manager files
+.npmrc
+.yarnrc*
+.pnpmfile.cjs
+
+# Editor configuration
+.editorconfig
+
+# Examples and demos (uncomment to exclude from package)
+examples/
+demo-project/
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Misc development files
+.husky/
+.commitlintrc*
+.lintstagedrc*
+.releaserc*
+
+# Project-specific generated files
+*.test.csv
+*.test.xlsx
+lang_bulid_*.csv
+missing-translations*.json
+i18n-scan-report.*
+
+# Demo project outputs
+demo-project/*/lang_bulid_*.csv
+demo-project/*/missing-translations*.json
+demo-project/*/i18n-scan-report.*
+
+# Development utilities
+bin/dev.*
+scripts/dev.*
+scripts/test.*
+scripts/build-demo.*

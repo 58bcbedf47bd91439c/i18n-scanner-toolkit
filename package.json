@@ -1,0 +1,97 @@
+{
+  "name": "@i18n-toolkit/scanner",
+  "version": "1.0.0",
+  "description": "A powerful i18n text scanner and manager for React, Vue, and other JavaScript frameworks",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "i18n-scanner": "cli.js"
+  },
+  "files": [
+    "dist",
+    "cli.js",
+    "templates",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .js,.ts",
+    "lint:fix": "eslint src --ext .js,.ts --fix",
+    "type-check": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm run test",
+    "cli": "node cli.js",
+    "demo": "node examples/demo.js"
+  },
+  "keywords": [
+    "i18n",
+    "internationalization",
+    "localization",
+    "react",
+    "vue",
+    "scanner",
+    "translation",
+    "missing-text",
+    "multilingual",
+    "text-extraction"
+  ],
+  "author": "i18n-toolkit Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/i18n-toolkit/scanner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/i18n-toolkit/scanner/issues"
+  },
+  "homepage": "https://github.com/i18n-toolkit/scanner#readme",
+  "engines": {
+    "node": ">=14.0.0",
+    "pnpm": ">=7.0.0"
+  },
+  "packageManager": "pnpm@8.0.0",
+  "dependencies": {
+    "@rollup/rollup-darwin-x64": "4.45.1",
+    "chalk": "^4.1.2",
+    "commander": "^9.5.0",
+    "cosmiconfig": "^8.0.0",
+    "fast-glob": "^3.2.12",
+    "fs-extra": "^11.1.1",
+    "inquirer": "^8.2.6",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
+    "@types/inquirer": "^9.0.3",
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "@vitest/ui": "^1.1.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.0",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10",
+    "vite-plugin-dts": "^3.7.0",
+    "vitest": "^1.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "vue": ">=2.6.0 || >=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  }
+}
