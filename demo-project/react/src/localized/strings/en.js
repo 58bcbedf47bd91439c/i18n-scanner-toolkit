@@ -1,10 +1,9 @@
-export default {
-  message: {
+export const message = {
+  "app.title": "React i18n Demo",
   "app.subtitle": "Demonstrating @i18n-toolkit/scanner",
+  "navigation.home": "Home",
   "navigation.about": "About",
   "navigation.contact": "Contact",
-  "navigation.products": "Products",
-  "navigation.profile": "Profile",
   "auth.login": "Login",
   "auth.logout": "Logout",
   "common.loading": "Loading...",
@@ -15,12 +14,7 @@ export default {
   "demo.title": "Demo Page",
   "demo.description": "This is a demo showcasing custom $LS function",
   "demo.switchLanguage": "Switch Language",
-  "demo.currentLanguage": "Current Language",
   "form.name": "Name",
   "form.email": "Email",
-  "form.submit": "Submit",
-  "form.reset": "Reset",
-  "HOCDemo106": "另一个缺失的文本",
-  "HookDemo108": "Hook模式的缺失文本"
-}
+  "form.submit": "Submit"
 };

@@ -99,7 +99,8 @@ async function loadJSLanguageFile(filePath: string, content: string): Promise<Re
     // 1. export const message = {...} (ES6)
     // 2. module.exports = { message: {...} } (CommonJS)
     // 3. module.exports.message = {...} (CommonJS)
-    const translations = module.message || module.default || module;
+    // 4. export default { message: {...} } (ES6 default)
+    let translations = module.default?.message || module.message || module.default || module;
 
     if (!translations || typeof translations !== 'object') {
       console.warn(`No valid translations found in ${filePath}`);

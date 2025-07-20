@@ -1,6 +1,6 @@
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const {I18nScanner} = require('./../../dist/index.js');
+const {I18nScanner} = require('i18n-scanner-toolkit');
 
 async function testNewAPI() {
   try {
@@ -26,11 +26,9 @@ async function testNewAPI() {
 
     console.log('🔧 缺失翻译的 JSON:');
     console.log(missingTranslations);
-return
     console.log('\n📋 测试 2: scanner.export() - 导出 CSV 文件');
     const csvPath = await scanner.export('./missing-translations.csv');
     console.log(`✅ CSV 文件已导出到: ${csvPath}`);
-
     console.log('\n📋 测试 3: scanner.import() - 从 CSV 导入翻译');
     try {
       await scanner.import('./missing-translations.csv');

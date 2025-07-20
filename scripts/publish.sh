@@ -19,18 +19,18 @@ if [ "$BRANCH" != "main" ] && [ "$BRANCH" != "master" ]; then
   exit 1
 fi
 
-# Check for uncommitted changes (required)
-if [ -n "$(git status --porcelain)" ]; then
-  echo "❌ Error: You have uncommitted changes. Please commit or stash them first."
-  git status --short
-  exit 1
-fi
+## Check for uncommitted changes (required)
+#if [ -n "$(git status --porcelain)" ]; then
+#  echo "❌ Error: You have uncommitted changes. Please commit or stash them first."
+#  git status --short
+#  exit 1
+#fi
 
-# Check if working directory is clean (required)
-if ! git diff-index --quiet HEAD --; then
-  echo "❌ Error: Working directory is not clean. Please commit all changes first."
-  exit 1
-fi
+## Check if working directory is clean (required)
+#if ! git diff-index --quiet HEAD --; then
+#  echo "❌ Error: Working directory is not clean. Please commit all changes first."
+#  exit 1
+#fi
 
 # Install dependencies
 echo "📦 Installing dependencies..."

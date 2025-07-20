@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import inquirer from 'inquirer';
 import readline from 'readline';
 import { I18nScanner } from '../core/Scanner';
-import { loadConfig, createConfig, validateConfig, generateExampleConfig } from '../config/loader';
+import { loadConfig, validateConfig, generateExampleConfig } from '../config/loader';
 import { CLIOptions } from '../types';
 import { ExcelExporter, JsonExporter } from '../exporters';
 import fs from 'fs-extra';
