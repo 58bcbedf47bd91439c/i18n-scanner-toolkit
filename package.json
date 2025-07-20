@@ -1,5 +1,5 @@
 {
-  "name": "@i18n-toolkit/scanner",
+  "name": "i18n-scanner-toolkit",
   "version": "1.0.1",
   "description": "A powerful i18n text scanner and manager for React, Vue, and other JavaScript frameworks",
   "main": "dist/index.js",
