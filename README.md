@@ -21,11 +21,11 @@ A modern, TypeScript-first internationalization scanner and translation manageme
 ## Installation
 
 ```bash
-npm install i18n-scanner-toolkit
+npm install --save-dev i18n-scanner-toolkit
 # or
-yarn add i18n-scanner-toolkit
+yarn add --dev i18n-scanner-toolkit
 # or
-pnpm add i18n-scanner-toolkit
+pnpm add --save-dev i18n-scanner-toolkit
 ```
 
 ## Quick Start

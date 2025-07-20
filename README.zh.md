@@ -21,11 +21,11 @@
 ## 安装
 
 ```bash
-npm install i18n-scanner-toolkit
+npm install --save-dev i18n-scanner-toolkit
 # 或者
-yarn add i18n-scanner-toolkit
+yarn add --dev i18n-scanner-toolkit
 # 或者
-pnpm add i18n-scanner-toolkit
+pnpm add --save-dev i18n-scanner-toolkit
 ```
 
 ## 快速开始
