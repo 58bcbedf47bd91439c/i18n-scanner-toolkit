@@ -43,8 +43,8 @@ importers:
         specifier: ^4.6.0
         version: 4.6.2(eslint@8.57.1)
       i18n-scanner-toolkit:
-        specifier: ^1.0.5
-        version: 1.0.5(react@18.3.1)
+        specifier: ^1.0.6
+        version: 1.0.6(react@18.3.1)
       vite:
         specifier: ^4.1.0
         version: 4.5.14
@@ -848,8 +848,8 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
-  i18n-scanner-toolkit@1.0.5:
-    resolution: {integrity: sha512-c2gZ0VEeZr9UZv4/cGjQJDK3ra4DIJ8NKVL8bekj/RnIB+843YngsopMg4TRSgJH1T93ByaeorZZ2raNeouEtQ==}
+  i18n-scanner-toolkit@1.0.6:
+    resolution: {integrity: sha512-lRyc8R4OxHLmp1mo7wfDdWM/LI9bbL7YyjqaVvl7xzGR+04F3mkrWxpVhh7tIC0omvWCpFOnRZsoNfvoUiFliA==}
     engines: {node: '>=14.0.0', pnpm: '>=7.0.0'}
     hasBin: true
     peerDependencies:
@@ -2544,7 +2544,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  i18n-scanner-toolkit@1.0.5(react@18.3.1):
+  i18n-scanner-toolkit@1.0.6(react@18.3.1):
     dependencies:
       '@rollup/rollup-darwin-x64': 4.45.1
       chalk: 4.1.2

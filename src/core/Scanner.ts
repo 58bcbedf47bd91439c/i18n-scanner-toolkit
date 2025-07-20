@@ -261,12 +261,15 @@ export class I18nScanner {
     const sortedKeys = Array.from(allKeys).sort();
     console.log(`🔑 Found ${sortedKeys.length} unique keys`);
 
-    // 生成 CSV 内容（类似 localized-tool 的格式）
-    const csvLines: string[] = [];
+    // 使用 papaparse 生成 CSV 内容
+    const Papa = await import('papaparse');
+
+    // 准备数据：表头 + 数据行
+    const csvData: string[][] = [];
 
     // 表头：key + 所有语言
     const header = ['key', ...languages];
-    csvLines.push(header.join(','));
+    csvData.push(header);
 
     // 数据行
     sortedKeys.forEach(key => {
@@ -275,23 +278,22 @@ export class I18nScanner {
       // 为每种语言添加翻译
       languages.forEach(lang => {
         const langFile = languageFiles[lang];
-        let translation = langFile?.translations[key] || '';
-
-        // 如果没有翻译，保持空白
-        // 不使用原文填充，让用户自己填写翻译
-
-        // 转义 CSV 中的引号和逗号
-        if (translation && (translation.includes(',') || translation.includes('"') || translation.includes('\n'))) {
-          translation = `"${translation.replace(/"/g, '""')}"`;
-        }
-
+        const translation = langFile?.translations[key] || '';
         row.push(translation);
       });
 
-      csvLines.push(row.join(','));
+      csvData.push(row);
     });
 
-    const csvContent = csvLines.join('\n');
+    // 使用 papaparse 生成 CSV，自动处理特殊字符
+    const csvContent = Papa.default.unparse(csvData, {
+      quotes: true, // 自动为包含特殊字符的字段添加引号
+      quoteChar: '"',
+      escapeChar: '"',
+      delimiter: ',',
+      header: false, // 我们已经手动添加了表头
+      newline: '\n'
+    });
 
     // 写入文件
     const fs = await import('fs-extra');
@@ -314,35 +316,53 @@ export class I18nScanner {
     }
 
     const csvContent = await fs.default.readFile(filePath, 'utf8');
-    const lines = csvContent.split('\n').filter(line => line.trim());
 
-    if (lines.length < 2) {
+    // 使用 papaparse 解析 CSV，自动处理特殊字符
+    const Papa = await import('papaparse');
+    const parseResult = Papa.default.parse(csvContent, {
+      header: false, // 不使用第一行作为对象键，我们手动处理
+      skipEmptyLines: true,
+      delimiter: ',',
+      quoteChar: '"',
+      escapeChar: '"',
+      dynamicTyping: false, // 保持所有值为字符串
+      skipFirstNLines: 0,
+      transform: (value: string) => value // 不自动 trim，保持原始值
+    });
+
+    if (parseResult.errors.length > 0) {
+      console.warn('CSV parsing warnings:', parseResult.errors);
+    }
+
+    const rows = parseResult.data as string[][];
+
+    if (rows.length < 2) {
       throw new Error('CSV file must have at least a header and one data row');
     }
 
-    // 解析 CSV (格式为: key,en,zh_hans)
-    const header = lines[0].split(',');
+    // 解析表头 (格式为: key,en,zh_hans)
+    const header = rows[0];
     const translationsByLanguage: Record<string, Record<string, string>> = {};
 
     // 初始化每种语言的翻译映射
     for (let i = 1; i < header.length; i++) {
-      const lang = header[i].trim();
-      translationsByLanguage[lang] = {};
+      const lang = header[i];
+      if (lang) {
+        translationsByLanguage[lang] = {};
+      }
     }
 
-    for (let i = 1; i < lines.length; i++) {
-      const line = lines[i];
-      if (line.trim()) {
-        const columns = line.split(',');
-
-        if (columns.length >= 2) {
-          const key = columns[0].trim();
-
+    // 解析数据行
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      if (row && row.length >= 2) {
+        const key = row[0];
+        if (key) {
           // 为每种语言添加翻译
-          for (let j = 1; j < columns.length && j < header.length; j++) {
-            const lang = header[j].trim();
-            const translation = columns[j].trim();
-            if (translation) {
+          for (let j = 1; j < row.length && j < header.length; j++) {
+            const lang = header[j];
+            const translation = row[j];
+            if (lang && translation) {
               translationsByLanguage[lang][key] = translation;
             }
           }

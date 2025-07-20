@@ -16,5 +16,8 @@ export const message = {
   "demo.switchLanguage": "切换语言",
   "form.name": "姓名",
   "form.email": "邮箱",
-  "form.submit": "提交"
+  "form.submit": "提交",
+  "test.comma": "包含，逗号的文本",
+  "test.newline": "包含\n换行的文本",
+  "test.complex": "with"
 };

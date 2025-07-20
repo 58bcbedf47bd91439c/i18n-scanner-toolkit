@@ -16,5 +16,14 @@ export const message = {
   "demo.switchLanguage": "Switch Language",
   "form.name": "Name",
   "form.email": "Email",
-  "form.submit": "Submit"
+  "form.submit": "Submit",
+  "test.comma": "Text with, comma",
+  "test.quote": "Text with \"quotes\",\"包含\"引号\"的文本",
+  "test.newline": "Text with\nNewline",
+  "test.complex": "Complex: \"text",
+  "special chars!\"": "复杂：\"文本\"，包含\n特殊字符！",
+  "test.comma1": "Hello, world!",
+  "test.comma2": "Welcome, dear user, to our amazing app!",
+  "test.comma3": "Items: apple, banana, orange",
+  "test.mixed": "Text with comma, and \"quotes\", and more!"
 };

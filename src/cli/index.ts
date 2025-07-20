@@ -4,7 +4,7 @@ import readline from 'readline';
 import { I18nScanner } from '../core/Scanner';
 import { loadConfig, validateConfig, generateExampleConfig } from '../config/loader';
 import { CLIOptions } from '../types';
-import { ExcelExporter, JsonExporter } from '../exporters';
+import { JsonExporter } from '../exporters';
 import fs from 'fs-extra';
 import path from 'path';
 
@@ -51,8 +51,8 @@ export async function runInteractiveMenu(): Promise<void> {
       console.log(chalk.blue.bold('🔍 i18n 翻译管理工具\n'));
       console.log('请选择以下操作，输入数字即可');
       console.log('1 :查找缺失的中文文案');
-      console.log('2 :生成Excel（文件会存放到当前目录）');
-      console.log('3 :导入Excel');
+      console.log('2 :导出 CSV 文件（文件会存放到当前目录）');
+      console.log('3 :导入 CSV 文件');
       console.log('4 :退出');
       console.log('');
 
@@ -72,12 +72,12 @@ async function handleMenuChoice(choice: string, rl: readline.Interface, showMenu
       await findMissingTexts();
       break;
     case '2':
-      await exportToExcel();
+      await exportToCSV();
       break;
     case '3':
       console.log('-'.repeat(50));
-      rl.question('请输入导入Excel的文件地址：', async (excelPath) => {
-        await importFromExcel(excelPath);
+      rl.question('请输入导入 CSV 的文件地址：', async (csvPath) => {
+        await importFromCSV(csvPath);
         await backToMenu(rl, showMenu);
       });
       return; // Don't call backToMenu here since it's called in the callback
@@ -139,26 +139,21 @@ async function findMissingTexts(): Promise<void> {
 }
 
 /**
- * 2. 生成Excel
+ * 2. 导出 CSV
  */
-async function exportToExcel(): Promise<void> {
-  console.log('\n📤 正在生成Excel文件...');
+async function exportToCSV(): Promise<void> {
+  console.log('\n📤 正在生成 CSV 文件...');
 
   try {
     const config = await loadConfig();
     const scanner = new I18nScanner(config);
-    const result = await scanner.scan();
 
-    // 生成Excel文件
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 15);
-    const outputPath = path.join(process.cwd(), `lang_build_${timestamp}.xlsx`);
+    // 使用 Scanner 的 export 方法导出 CSV
+    const csvPath = await scanner.export();
 
-    const excelExporter = new ExcelExporter();
-    await excelExporter.export(result, outputPath);
-
-    console.log(chalk.green(`✅ Excel文件生成成功: ${outputPath}`));
-    console.log(`📊 共导出 ${result.extractedTexts.length} 个翻译条目`);
-    console.log(`🌍 支持语言: ${Object.keys(result.existingTranslations).join(', ')}`);
+    console.log(chalk.green(`✅ CSV 文件生成成功: ${csvPath}`));
+    console.log(`📊 已导出所有现有翻译到 CSV 文件`);
+    console.log(`🌍 可在 Excel 或其他 CSV 编辑器中编辑翻译`);
 
   } catch (error: any) {
     console.log(chalk.red(`❌ 导出失败: ${error.message}`));
@@ -166,19 +161,25 @@ async function exportToExcel(): Promise<void> {
 }
 
 /**
- * 3. 导入Excel
+ * 3. 导入 CSV
  */
-async function importFromExcel(excelPath: string): Promise<void> {
-  console.log(`\n📥 正在导入Excel文件: ${excelPath}`);
+async function importFromCSV(csvPath: string): Promise<void> {
+  console.log(`\n📥 正在导入 CSV 文件: ${csvPath}`);
 
-  if (!await fs.pathExists(excelPath)) {
+  if (!await fs.pathExists(csvPath)) {
     console.log(chalk.red('❌ 文件不存在'));
     return;
   }
 
   try {
-    // 这里需要实现Excel读取和语言文件更新逻辑
-    console.log(chalk.blue('💡 Excel导入功能开发中...'));
+    const config = await loadConfig();
+    const scanner = new I18nScanner(config);
+
+    // 使用 Scanner 的 import 方法导入 CSV
+    await scanner.import(csvPath);
+
+    console.log(chalk.green('✅ CSV 文件导入成功'));
+    console.log('📝 语言文件已更新');
 
   } catch (error: any) {
     console.log(chalk.red(`❌ 导入失败: ${error.message}`));
@@ -404,13 +405,6 @@ async function exportResults(result: any, format: string, projectDir: string): P
   const outputDir = path.join(require('os').homedir(), 'Downloads');
 
   switch (format) {
-    case 'excel':
-      const excelPath = path.join(outputDir, `i18n-scan-${timestamp}.xlsx`);
-      const excelExporter = new ExcelExporter();
-      await excelExporter.export(result, excelPath);
-      console.log(chalk.green(`📊 Excel report saved: ${excelPath}`));
-      break;
-
     case 'json':
       const jsonPath = path.join(outputDir, `i18n-scan-${timestamp}.json`);
       const jsonExporter = new JsonExporter();
@@ -418,7 +412,15 @@ async function exportResults(result: any, format: string, projectDir: string): P
       console.log(chalk.green(`📄 JSON report saved: ${jsonPath}`));
       break;
 
+    case 'csv':
+      // 使用 Scanner 的 export 方法导出 CSV
+      const config = await loadConfig(projectDir);
+      const scanner = new I18nScanner(config);
+      const csvPath = await scanner.export(path.join(outputDir, `i18n-export-${timestamp}.csv`));
+      console.log(chalk.green(`📊 CSV export saved: ${csvPath}`));
+      break;
+
     default:
-      console.warn(chalk.yellow(`⚠️  Unknown output format: ${format}`));
+      console.warn(chalk.yellow(`⚠️  Unknown output format: ${format}. Supported: json, csv`));
   }
 }
