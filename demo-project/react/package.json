@@ -21,14 +21,13 @@
     "react-redux": "^9.0.4"
   },
   "devDependencies": {
-    "@i18n-toolkit/scanner": "file:../",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^3.1.0",
     "eslint": "^8.34.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "i18n-scanner-toolkit": "^1.0.4",
+    "i18n-scanner-toolkit": "^1.0.5",
     "vite": "^4.1.0"
   },
   "keywords": [

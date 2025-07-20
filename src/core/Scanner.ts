@@ -320,26 +320,65 @@ export class I18nScanner {
       throw new Error('CSV file must have at least a header and one data row');
     }
 
-    // 解析 CSV (简单实现，假设格式为: key,text,file,line)
-    const translations: Record<string, string> = {};
+    // 解析 CSV (格式为: key,en,zh_hans)
+    const header = lines[0].split(',');
+    const translationsByLanguage: Record<string, Record<string, string>> = {};
+
+    // 初始化每种语言的翻译映射
+    for (let i = 1; i < header.length; i++) {
+      const lang = header[i].trim();
+      translationsByLanguage[lang] = {};
+    }
 
     for (let i = 1; i < lines.length; i++) {
       const line = lines[i];
-      if (line) {
-        const match = line.match(/^([^,]+),"([^"]*(?:""[^"]*)*)"(?:,.*)?$/);
+      if (line.trim()) {
+        const columns = line.split(',');
 
-        if (match && match[1] && match[2]) {
-          const key = match[1];
-          const text = match[2].replace(/""/g, '"'); // 处理转义的引号
-          translations[key] = text;
+        if (columns.length >= 2) {
+          const key = columns[0].trim();
+
+          // 为每种语言添加翻译
+          for (let j = 1; j < columns.length && j < header.length; j++) {
+            const lang = header[j].trim();
+            const translation = columns[j].trim();
+            if (translation) {
+              translationsByLanguage[lang][key] = translation;
+            }
+          }
         }
       }
     }
 
-    console.log(`📥 Imported ${Object.keys(translations).length} translations from: ${filePath}`);
+    const totalTranslations = Object.values(translationsByLanguage).reduce((sum, langTranslations) => sum + Object.keys(langTranslations).length, 0);
+    console.log(`📥 Imported ${totalTranslations} translations from: ${filePath}`);
 
     // 更新语言文件
-    await this.updateLanguageFiles(translations);
+    await this.updateLanguageFilesByLanguage(translationsByLanguage);
+  }
+
+  /**
+   * 按语言更新语言文件
+   * Update language files by language
+   */
+  private async updateLanguageFilesByLanguage(translationsByLanguage: Record<string, Record<string, string>>): Promise<void> {
+    const fs = await import('fs-extra');
+
+    // 获取现有语言文件
+    const result = await this.scan();
+    const languageFiles = result.existingTranslations;
+
+    // 更新每个语言文件
+    for (const [locale, langFile] of Object.entries(languageFiles)) {
+      const newTranslations = translationsByLanguage[locale];
+      if (newTranslations && Object.keys(newTranslations).length > 0) {
+        const updatedTranslations = { ...langFile.translations, ...newTranslations };
+
+        // 写回文件，保持原有格式
+        await this.updateJSLanguageFile(langFile.filePath, updatedTranslations);
+        console.log(`✅ Updated ${locale} language file: ${langFile.filePath} (${Object.keys(newTranslations).length} translations)`);
+      }
+    }
   }
 
   /**
@@ -371,12 +410,50 @@ export class I18nScanner {
       if (langFile.format === 'json') {
         content = JSON.stringify(updatedTranslations, null, 2);
       } else {
-        // JS 格式
-        content = `export default {\n  message: ${JSON.stringify(updatedTranslations, null, 2)}\n};\n`;
+        // JS 格式 - 保持原有的导出格式
+        await this.updateJSLanguageFile(outputPath, updatedTranslations);
+        continue;
       }
 
       await fs.default.writeFile(outputPath, content, 'utf8');
       console.log(`✅ Updated ${locale} language file: ${outputPath}`);
+    }
+  }
+
+  /**
+   * 更新 JS 语言文件，保持原有格式
+   * Update JS language file while preserving original format
+   */
+  private async updateJSLanguageFile(filePath: string, translations: Record<string, string>): Promise<void> {
+    const fs = await import('fs-extra');
+
+    try {
+      // 读取原文件内容
+      const originalContent = await fs.default.readFile(filePath, 'utf8');
+
+      // 检测原文件的导出格式
+      let content = '';
+
+      if (originalContent.includes('export const message')) {
+        // 保持 export const message = {...} 格式
+        content = `export const message = ${JSON.stringify(translations, null, 2)};\n`;
+      } else if (originalContent.includes('export default')) {
+        // 保持 export default { message: {...} } 格式
+        content = `export default {\n  message: ${JSON.stringify(translations, null, 2)}\n};\n`;
+      } else if (originalContent.includes('module.exports')) {
+        // 保持 CommonJS 格式
+        content = `module.exports = {\n  message: ${JSON.stringify(translations, null, 2)}\n};\n`;
+      } else {
+        // 默认使用 export const 格式
+        content = `export const message = ${JSON.stringify(translations, null, 2)};\n`;
+      }
+
+      await fs.default.writeFile(filePath, content, 'utf8');
+    } catch (error) {
+      console.warn(`Failed to update JS language file ${filePath}:`, error);
+      // 回退到默认格式
+      const content = `export const message = ${JSON.stringify(translations, null, 2)};\n`;
+      await fs.default.writeFile(filePath, content, 'utf8');
     }
   }
 

@@ -24,9 +24,6 @@ importers:
         specifier: ^9.0.4
         version: 9.2.0(@types/react@18.3.23)(react@18.3.1)(redux@5.0.1)
     devDependencies:
-      '@i18n-toolkit/scanner':
-        specifier: file:../
-        version: demo-project@file:..
       '@types/react':
         specifier: ^18.0.27
         version: 18.3.23
@@ -46,8 +43,8 @@ importers:
         specifier: ^4.6.0
         version: 4.6.2(eslint@8.57.1)
       i18n-scanner-toolkit:
-        specifier: ^1.0.4
-        version: 1.0.4(react@18.3.1)
+        specifier: ^1.0.5
+        version: 1.0.5(react@18.3.1)
       vite:
         specifier: ^4.1.0
         version: 4.5.14
@@ -589,9 +586,6 @@ packages:
     resolution: {integrity: sha512-8QmQKqEASLd5nx0U1B1okLElbUuuttJ/AnYmRXbbbGDWh6uS208EjD4Xqq/I9wK7u0v6O08XhTWnt5XtEbR6Dg==}
     engines: {node: '>= 0.4'}
 
-  demo-project@file:..:
-    resolution: {directory: .., type: directory}
-
   doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
     engines: {node: '>=0.10.0'}
@@ -854,8 +848,8 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
-  i18n-scanner-toolkit@1.0.4:
-    resolution: {integrity: sha512-xLwa45FO/rYUvYFD0hyD2eQXKz9er1Djz5yKp4yUsxM/MoGkcRJKKbuxM1tYTnNFNIX1f9WYDGwzO01h6ON2qw==}
+  i18n-scanner-toolkit@1.0.5:
+    resolution: {integrity: sha512-c2gZ0VEeZr9UZv4/cGjQJDK3ra4DIJ8NKVL8bekj/RnIB+843YngsopMg4TRSgJH1T93ByaeorZZ2raNeouEtQ==}
     engines: {node: '>=14.0.0', pnpm: '>=7.0.0'}
     hasBin: true
     peerDependencies:
@@ -2143,8 +2137,6 @@ snapshots:
       has-property-descriptors: 1.0.2
       object-keys: 1.1.1
 
-  demo-project@file:..: {}
-
   doctrine@2.1.0:
     dependencies:
       esutils: 2.0.3
@@ -2552,7 +2544,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  i18n-scanner-toolkit@1.0.4(react@18.3.1):
+  i18n-scanner-toolkit@1.0.5(react@18.3.1):
     dependencies:
       '@rollup/rollup-darwin-x64': 4.45.1
       chalk: 4.1.2
