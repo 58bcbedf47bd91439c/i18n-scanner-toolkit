@@ -102,6 +102,68 @@ const config = {
 | `ignoreKeyPatterns` | `string[]` | `[]` | Patterns to ignore when generating keys |
 | `defaultLocale` | `string` | `'en.js'` | Default language file |
 
+### Framework-Specific Configuration Examples
+
+#### React (with react-i18next)
+```javascript
+const config = {
+  framework: 'react',
+  projectDir: './',
+  sourceDir: 'src',
+  localeDir: 'src/locales',
+  extensions: ['js', 'jsx', 'ts', 'tsx'],
+  ignoreDirs: ['node_modules', '.git', 'dist', 'build', '.next'],
+  ignoreKeyPatterns: ['components', 'utils', 'common', 'hooks'],
+  defaultLocale: 'en.json',
+  extractPattern: /\bt\s*\(\s*['"`]([^'"`]+)['"`]/g
+};
+```
+
+#### Vue (with vue-i18n)
+```javascript
+const config = {
+  framework: 'vue',
+  projectDir: './',
+  sourceDir: 'src',
+  localeDir: 'src/locales',
+  extensions: ['vue', 'js', 'ts'],
+  ignoreDirs: ['node_modules', '.git', 'dist', 'build'],
+  ignoreKeyPatterns: ['components', 'utils', 'common', 'composables'],
+  defaultLocale: 'zh-CN.json',
+  extractPattern: /\$t\s*\(\s*['"`]([^'"`]+)['"`]/g
+};
+```
+
+#### Angular (with ngx-translate)
+```javascript
+const config = {
+  framework: 'angular',
+  projectDir: './',
+  sourceDir: 'src',
+  localeDir: 'src/assets/i18n',
+  extensions: ['ts', 'html'],
+  ignoreDirs: ['node_modules', '.git', 'dist', 'build'],
+  ignoreKeyPatterns: ['components', 'services', 'shared'],
+  defaultLocale: 'en.json',
+  extractPattern: /translate\.(?:get|instant)\s*\(\s*['"`]([^'"`]+)['"`]/g
+};
+```
+
+#### Custom Pattern
+```javascript
+const config = {
+  framework: 'custom',
+  projectDir: './',
+  sourceDir: 'src',
+  localeDir: 'src/localized/strings',
+  extensions: ['js', 'jsx', 'ts', 'tsx'],
+  ignoreDirs: ['node_modules', '.git', 'dist', 'build'],
+  ignoreKeyPatterns: ['src', 'components'],
+  defaultLocale: 'zh_hans.js',
+  extractPattern: /\$LS\s*\(\s*['"`]([^'"`]+)['"`]\s*\)/g
+};
+```
+
 ## API Reference
 
 ### I18nScanner

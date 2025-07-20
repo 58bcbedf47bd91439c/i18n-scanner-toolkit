@@ -93,10 +93,8 @@ if (fs.existsSync('dist/index.d.ts')) {
   checkError(typesContent.includes('I18nScanner'), 'Main class is exported');
 }
 
-// Check templates and examples
-console.log(chalk.blue('\n📋 Checking templates and examples...'));
-checkWarning(fs.existsSync('templates/react.config.json'), 'React template exists');
-checkWarning(fs.existsSync('templates/vue.config.json'), 'Vue template exists');
+// Check examples
+console.log(chalk.blue('\n📋 Checking examples...'));
 checkWarning(fs.existsSync('examples/react-usage.js'), 'React example exists');
 checkWarning(fs.existsSync('examples/vue-usage.js'), 'Vue example exists');
 
@@ -144,7 +142,7 @@ if (hasErrors) {
 } else {
   console.log(chalk.green('✅ Pre-publish check PASSED'));
   console.log(chalk.green('Package is ready for publishing!'));
-  
+
   console.log(chalk.blue('\n🚀 Next steps:'));
   console.log('1. Run: pnpm build');
   console.log('2. Run: pnpm test');

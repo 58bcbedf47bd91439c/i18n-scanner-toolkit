@@ -12,7 +12,6 @@
     "dist/index.js",
     "dist/index.d.ts",
     "cli.js",
-    "templates",
     "README.md",
     "LICENSE"
   ],
