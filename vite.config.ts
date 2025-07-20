@@ -9,18 +9,16 @@ export default defineConfig({
       exclude: ['src/**/*.test.ts', 'src/**/*.spec.ts'],
       outDir: 'dist',
       insertTypesEntry: true,
+      rollupTypes: true, // 合并所有类型声明到单个文件
+      bundledPackages: ['papaparse'], // 打包 papaparse 类型
     }),
   ],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'I18nToolkitScanner',
-      formats: ['es', 'cjs'],
-      fileName: (format) => {
-        if (format === 'es') return 'index.esm.js';
-        if (format === 'cjs') return 'index.js';
-        return `index.${format}.js`;
-      },
+      formats: ['cjs'], // 只构建 CJS 版本，减少文件数量
+      fileName: () => 'index.js',
     },
     rollupOptions: {
       external: [
@@ -30,7 +28,7 @@ export default defineConfig({
         'fast-glob',
         'fs-extra',
         'inquirer',
-        'xlsx',
+        'papaparse',
         'fs',
         'path',
         'os',
@@ -53,14 +51,23 @@ export default defineConfig({
           'fast-glob': 'fastGlob',
           'fs-extra': 'fsExtra',
           inquirer: 'inquirer',
-          xlsx: 'XLSX',
+          papaparse: 'Papa',
         },
       },
     },
     outDir: 'dist',
-    sourcemap: true,
-    minify: false, // Keep readable for debugging
+    sourcemap: false, // 禁用 source maps 减少文件大小
+    minify: 'terser', // 启用压缩
     target: 'node14',
+    terserOptions: {
+      compress: {
+        drop_console: true, // 移除 console.log
+        drop_debugger: true, // 移除 debugger
+      },
+      mangle: {
+        keep_fnames: true, // 保持函数名，便于调试
+      },
+    },
   },
   test: {
     globals: true,
