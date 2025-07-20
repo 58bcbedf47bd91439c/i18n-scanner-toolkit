@@ -45,12 +45,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/i18n-toolkit/scanner.git"
+    "url": "https://github.com/58bcbedf47bd91439c/i18n-scanner-toolkit.git"
   },
   "bugs": {
-    "url": "https://github.com/i18n-toolkit/scanner/issues"
+    "url": "https://github.com/58bcbedf47bd91439c/i18n-scanner-toolkit/issues"
   },
-  "homepage": "https://github.com/i18n-toolkit/scanner#readme",
+  "homepage": "https://github.com/58bcbedf47bd91439c/i18n-scanner-toolkit#readme",
   "engines": {
     "node": ">=14.0.0",
     "pnpm": ">=7.0.0"
