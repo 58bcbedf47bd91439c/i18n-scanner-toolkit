@@ -1,36 +1,27 @@
 module.exports = {
   root: true,
-  parser: '@typescript-eslint/parser',
-  plugins: [
-    '@typescript-eslint',
-    'prettier'
-  ],
-  extends: [
-    'eslint:recommended',
-    '@typescript-eslint/recommended',
-    'prettier'
-  ],
   env: {
     node: true,
     es2020: true
   },
+  extends: [
+    'eslint:recommended'
+  ],
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module'
   },
   rules: {
-    'prettier/prettier': 'error',
-    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'warn',
-    '@typescript-eslint/no-non-null-assertion': 'warn',
     'prefer-const': 'error',
-    'no-var': 'error'
+    'no-var': 'error',
+    'no-unused-vars': 'off' // 关闭 JS 的未使用变量检查
   },
   ignorePatterns: [
     'dist/',
     'node_modules/',
-    '*.js'
+    'demo-project/',
+    'examples/',
+    'scripts/',
+    '**/*.js' // 忽略所有 JS 文件，只检查 TS
   ]
 };

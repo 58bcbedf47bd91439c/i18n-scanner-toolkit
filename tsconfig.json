@@ -27,9 +27,7 @@
     "types": ["vitest/globals", "node"]
   },
   "include": [
-    "src/**/*",
-    "vite.config.ts",
-    "vite.config.cli.ts"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules",
