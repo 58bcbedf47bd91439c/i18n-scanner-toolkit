@@ -10,10 +10,24 @@ export async function loadLanguageFiles(config: I18nConfig): Promise<Record<stri
   const languageFiles: Record<string, LanguageFile> = {};
 
   try {
+    // 构建绝对路径
+    const localeDir = path.isAbsolute(config.localeDir)
+      ? config.localeDir
+      : path.resolve(config.projectDir, config.localeDir);
+
+    // 检查目录是否存在
+    const fs = await import('fs-extra');
+    const dirExists = await fs.pathExists(localeDir);
+
+    if (!dirExists) {
+      console.warn(`⚠️  语言文件目录不存在: ${localeDir}`);
+      return languageFiles;
+    }
+
     // Find all language files
     const patterns = ['**/*.json', '**/*.js', '**/*.yaml', '**/*.yml'];
     const files = await glob(patterns, {
-      cwd: config.localeDir,
+      cwd: localeDir,
       absolute: true
     });
 
@@ -89,18 +103,36 @@ export async function loadLanguageFile(filePath: string): Promise<LanguageFile |
  */
 async function loadJSLanguageFile(filePath: string, content: string): Promise<Record<string, string>> {
   try {
-    // Clear require cache first
-    delete require.cache[require.resolve(filePath)];
+    let translations: Record<string, string> = {};
 
-    // Directly require the file
-    const module = require(filePath);
+    // Handle ES6 modules by parsing the content directly
+    if (content.includes('export ')) {
+      // Parse ES6 module content using regex
+      const exportMatch = content.match(/export\s+const\s+message\s*=\s*({[\s\S]*?});?\s*$/m);
+      if (exportMatch) {
+        try {
+          // Use eval to parse the object (safe since we control the source)
+          const messageObject = eval(`(${exportMatch[1]})`);
+          translations = messageObject;
+        } catch (evalError) {
+          console.warn(`Failed to parse ES6 export in ${filePath}:`, evalError);
+          return {};
+        }
+      } else {
+        console.warn(`Could not find 'export const message' in ${filePath}`);
+        return {};
+      }
+    } else {
+      // Use require for CommonJS modules
+      delete require.cache[require.resolve(filePath)];
+      const module = require(filePath);
 
-    // Support different export formats:
-    // 1. export const message = {...} (ES6)
-    // 2. module.exports = { message: {...} } (CommonJS)
-    // 3. module.exports.message = {...} (CommonJS)
-    // 4. export default { message: {...} } (ES6 default)
-    let translations = module.default?.message || module.message || module.default || module;
+      // Support different export formats:
+      // 1. module.exports = { message: {...} } (CommonJS)
+      // 2. module.exports.message = {...} (CommonJS)
+      // 3. module.exports = {...} (direct export)
+      translations = module.message || module.default || module;
+    }
 
     if (!translations || typeof translations !== 'object') {
       console.warn(`No valid translations found in ${filePath}`);

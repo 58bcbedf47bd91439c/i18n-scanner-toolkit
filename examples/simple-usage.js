@@ -3,7 +3,7 @@
  * Updated for the new API (v1.0.0)
  */
 
-const { I18nScanner } = require('@i18n-toolkit/scanner');
+const { I18nScanner } = require('../dist/index.js');
 
 // Example 1: Basic scan and get missing translations
 async function basicScan() {

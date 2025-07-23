@@ -126,3 +126,5 @@ demo-project/*/test-*.csv
 *.test.xlsx
 lang_bulid_*.csv
 missing-translations*.json
+test*.js
+debug*.js
